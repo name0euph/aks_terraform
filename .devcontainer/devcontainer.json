@@ -4,5 +4,14 @@
     "features": {
         "ghcr.io/devcontainers/features/terraform:1": {},
         "ghcr.io/devcontainers/features/azure-cli:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot-chat",
+                "GitHub.copilot",
+                "4ops.terraform"
+            ]
+        }
     }
 }
