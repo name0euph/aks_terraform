@@ -41,7 +41,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_api_management" "apim" {
-  name                = "apim-cft-openai-arisaka"
+  name                = "apim-cft-openai-arisaka2"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   publisher_name      = "ryouta-arisaka"
@@ -50,3 +50,14 @@ resource "azurerm_api_management" "apim" {
 
   tags = var.tag
 }
+
+resource "azurerm_cognitive_account" "openai" {
+  name                  = "aoai-cft-openai-arisaka"
+  resource_group_name   = azurerm_resource_group.rg.name
+  location              = "West US"
+  kind                  = "OpenAIApis"
+  sku_name              = "F0"
+
+  tags = var.tag
+}
+
