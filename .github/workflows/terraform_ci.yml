@@ -27,4 +27,3 @@ jobs:
 
       - name: Formatting Terraform
         run: terraform fmt -check -no-color -recursive
-        working-directory: .
