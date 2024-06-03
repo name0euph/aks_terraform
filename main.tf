@@ -46,7 +46,7 @@ resource "azurerm_api_management" "apim" {
   location            = azurerm_resource_group.rg.location
   publisher_name      = "ryouta-arisaka"
   publisher_email     = "ryouta-arisaka@jfe-systems.com"
-  sku_name            = "Developer_1"
+  sku_name            = "Consumption"
 
   tags = var.tag
 }
