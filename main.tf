@@ -52,11 +52,11 @@ resource "azurerm_api_management" "apim" {
 }
 
 resource "azurerm_cognitive_account" "openai" {
-  name                  = "aoai-cft-openai-arisaka"
-  resource_group_name   = azurerm_resource_group.rg.name
-  location              = "West US"
-  kind                  = "OpenAIApis"
-  sku_name              = "F0"
+  name                = "aoai-cft-openai-arisaka"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = "West US"
+  kind                = "OpenAIApis"
+  sku_name            = "F0"
 
   tags = var.tag
 }
