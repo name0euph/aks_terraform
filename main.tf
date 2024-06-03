@@ -9,7 +9,7 @@ terraform {
   }
   
   backend "azurerm" {
-      resource_group_name  = "tfstate"
+      resource_group_name  = "rg-cft-openai-arisaka"
       storage_account_name = "stcftopenaiarisaka"
       container_name       = "tfstate"
       key                  = "terraform.tfstate"
