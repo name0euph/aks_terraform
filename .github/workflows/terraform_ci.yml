@@ -43,5 +43,8 @@ jobs:
       - name: Validate Terraform
         run: terraform validate
 
-      - name: Formatting Terraform
+      - name: Format Terraform
         run: terraform fmt -check -no-color -recursive
+
+      - name: Plan Terraform
+        run: terraform plan
