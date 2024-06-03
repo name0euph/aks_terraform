@@ -6,10 +6,16 @@ on:
       - main
 
 jobs:
-  tf_version:
+  terraform:
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -30,7 +36,6 @@ jobs:
           azcliversion: 2.0.72
           inlineScript: |
             az account show
-            az storage -h
 
       - name: Initialize Terraform
         run: terraform init
