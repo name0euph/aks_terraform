@@ -28,15 +28,19 @@ jobs:
           terraform_version: 1.8.4
 
       - name: Format Terraform
+        id: fmt
         run: terraform fmt -check -no-color -recursive
 
       - name: Initialize Terraform
+        id: init
         run: terraform init
 
       - name: Validate Terraform
+        id: validate
         run: terraform validate
         
       - name: Plan Terraform
+        id: plan
         run: terraform plan -no-color
         continue-on-error: true
 
