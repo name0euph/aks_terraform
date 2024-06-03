@@ -47,4 +47,6 @@ resource "azurerm_api_management" "apim" {
   publisher_name      = "ryouta-arisaka"
   publisher_email     = "ryouta-arisaka@jfe-systems.com"
   sku_name            = "Developer_1"
+
+  tags = var.tag
 }
