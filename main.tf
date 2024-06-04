@@ -61,3 +61,40 @@ resource "azurerm_cognitive_account" "openai" {
   tags = var.tag
 }
 
+resource "azurerm_cognitive_deployment" "gpt-35-turbo" {
+  name                 = "gpt-35-turbo"
+  cognitive_account_id = azurerm_cognitive_account.openai.id
+  model {
+    format  = "OpenAI"
+    name    = "gpt-35-turbo"
+    version = "1106"
+  }
+  scale {
+    capacity = "10"
+    type     = "Standard"
+  }
+  rai_policy_name = "Microsoft.Default"
+
+  depends_on = [
+    azurerm_cognitive_account.openai,
+  ]
+}
+
+resource "azurerm_cognitive_deployment" "gpt-4o" {
+  name                 = "gpt-4o"
+  cognitive_account_id = azurerm_cognitive_account.openai.id
+  model {
+    format  = "OpenAI"
+    name    = "gpt-4o"
+    version = "2024-05-13"
+  }
+  scale {
+    capacity = "10"
+    type     = "Standard"
+  }
+  rai_policy_name = "Microsoft.Default"
+
+  depends_on = [
+    azurerm_cognitive_account.openai,
+  ]
+}
