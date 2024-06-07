@@ -6,4 +6,4 @@ services:
     stdin_open: true
     command: /bin/bash
     volumes:
-      - .:/workspaces
+      - .:/workspace
