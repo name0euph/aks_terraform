@@ -24,7 +24,8 @@
                 "4ops.terraform",
                 "GitHub.copilot-chat",
                 "GitHub.copilot",
-                "GitHub.vscode-github-actions"
+                "GitHub.vscode-github-actions",
+                "golang.Go"
             ]
         }
     }
