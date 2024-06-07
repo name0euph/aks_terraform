@@ -1,16 +1,31 @@
 {
-    "name": "Terraform",
-    "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "name": "Terraform & Go",
+    "dockerComposeFile": "./docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspaces",
     "features": {
         "ghcr.io/devcontainers/features/terraform:1": {},
         "ghcr.io/devcontainers/features/azure-cli:1": {}
     },
     "customizations": {
         "vscode": {
+            "settings":{
+                "terminal.integrated.shell.linux": "/bin/bash",
+                "go.toolsManagement.checkForUpdates": "off",
+                "go.gopath": "/go",
+                "go.gocodeAutoBuild": true,
+                "go.formatTool": "gofmt",
+                "go.useLanguageServer": true,
+                "editor.formatOnSave": false,
+                "[go]": {
+                  "editor.formatOnSave": true
+                }
+            },
             "extensions": [
+                "4ops.terraform",
                 "GitHub.copilot-chat",
                 "GitHub.copilot",
-                "4ops.terraform"
+                "GitHub.vscode-github-actions"
             ]
         }
     }
