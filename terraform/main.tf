@@ -122,3 +122,38 @@ resource "azurerm_cognitive_deployment" "gpt-4" {
     azurerm_cognitive_account.openai,
   ]
 }
+
+# Cosmos DB
+resource "azurerm_cosmosdb_account" "cosmosdb" {
+  name                = "cosmosdb-cft-openai-arisaka2"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  offer_type          = "Standard"
+  kind                = "GlobalDocumentDB"
+  consistency_policy {
+    consistency_level = "Session"
+  }
+  geo_location {
+    location          = azurerm_resource_group.rg.location
+    failover_priority = 0
+  }
+  capabilities {
+    name = "EnableServerless"
+  }
+  tags = var.tag
+}
+
+resource "azurerm_cosmosdb_sql_database" "sql" {
+  name                = "sqldb"
+  resource_group_name = azurerm_resource_group.rg.name
+  account_name        = azurerm_cosmosdb_account.cosmosdb.name
+}
+
+resource "azurerm_cosmosdb_sql_container" "users" {
+  name                = "Users"
+  resource_group_name = azurerm_resource_group.rg.name
+  account_name        = azurerm_cosmosdb_account.cosmosdb.name
+  database_name       = azurerm_cosmosdb_sql_database.sql.name
+  partition_key_path  = "/email"
+  partition_key_version = 1
+}
