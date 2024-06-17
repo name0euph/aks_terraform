@@ -5,12 +5,11 @@ import (
 	"log"
 	"os"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/data/azcosmos"
 	"github.com/joho/godotenv"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
-func NewDB() *gorm.DB {
+func NewDB() *azcosmos.Client {
 	if os.Getenv("GO_ENV") == "dev" {
 		// GO_ENVがdevの場合は、.envファイルを読み込む
 		err := godotenv.Load()
@@ -18,6 +17,21 @@ func NewDB() *gorm.DB {
 			log.Fatalln(err)
 		}
 	}
+
+	// Azure Cosmos DBに接続
+	endpoint := os.Getenv("COSMOS_DB_ENDPOINT")
+	key := os.Getenv("COSMOS_DB_KEY")
+	cred, _ := azcosmos.NewKeyCredential(key)
+	client, err := azcosmos.NewClientWithKey(endpoint, cred, nil)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Println("Connected")
+	return client
+}
+
+/*
 	// DBに接続
 	url := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", os.Getenv("POSTGRES_USER"),
 		os.Getenv("POSTGRES_PW"), os.Getenv("POSTGRES_HOST"),
@@ -37,3 +51,4 @@ func CloseDB(db *gorm.DB) {
 		log.Fatalln(err)
 	}
 }
+*/
