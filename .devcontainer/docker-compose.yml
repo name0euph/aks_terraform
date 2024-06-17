@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   app:
     build: .
@@ -6,6 +6,7 @@ services:
     stdin_open: true
     command: /bin/bash
     volumes:
+      - ../:/home/permit/aks_terraform
       - ../go:/go/src/work
   postgres:
     image: postgres:12
@@ -16,4 +17,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+volumes:
+  postgres_data:
