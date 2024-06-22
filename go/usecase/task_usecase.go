@@ -3,6 +3,7 @@ package usecase
 import (
 	"go-rest-api/model"
 	"go-rest-api/repository"
+	"go-rest-api/validator"
 )
 
 // taskUsecaseのinterfaceを定義
@@ -17,12 +18,13 @@ type ITaskUsecase interface {
 // taskUsecaseの構造体を定義
 type taskUsecase struct {
 	tr repository.ITaskRepository
+	tv validator.ITaskValidator
 }
 
 // taskUsecaseのコンストラクタ
-func NewTaskUsecase(tr repository.ITaskRepository) ITaskUsecase {
+func NewTaskUsecase(tr repository.ITaskRepository, tv validator.ITaskValidator) ITaskUsecase {
 	// taskUsecaseの構造体の実体を作成し、ポインタを返す
-	return &taskUsecase{tr}
+	return &taskUsecase{tr, tv}
 }
 
 func (tu *taskUsecase) GetAllTasks(userId uint) ([]model.TaskResponse, error) {
