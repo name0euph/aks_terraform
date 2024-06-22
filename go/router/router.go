@@ -17,7 +17,7 @@ func NewRouter(uc controller.IUserController, tc controller.ITaskController) *ec
 	e.POST("/logout", uc.LogOut)
 	t := e.Group("/tasks")
 	t.Use(echojwt.WithConfig(echojwt.Config{
-		SigningKey:  []byte(os.Getenv("SECREST")),
+		SigningKey:  []byte(os.Getenv("SECRET")),
 		TokenLookup: "cookie:token", // cookieに保存されたトークンを取得
 	}))
 	t.GET("", tc.GetAllTasks)
