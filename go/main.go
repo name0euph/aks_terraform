@@ -6,13 +6,12 @@ import (
 	"go-rest-api/repository"
 	"go-rest-api/router"
 	"go-rest-api/usecase"
-	"os"
 )
 
 func main() {
 	db := db.NewDB()
 	// 依存性の注入
-	userRepository := repository.NewUserRepository(db, os.Getenv("COSMOS_DB_NAME"))
+	userRepository := repository.NewUserRepository(db)
 	userUsecase := usecase.NewUserUsecase(userRepository)
 	userController := controller.NewUserController(userUsecase)
 	e := router.NewRouter(userController)

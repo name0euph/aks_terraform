@@ -35,8 +35,12 @@ func (uu *userUsecase) SignUp(user model.User) (model.UserResponse, error) {
 		return model.UserResponse{}, err
 	}
 
-	// User構造体にハッシュ化したEmailとPasswordを代入
-	newUser := model.User{Email: user.Email, Password: string(hash)}
+	// DBに保存するユーザ情報を作成
+	newUser := model.User{
+		Email:    user.Email,
+		Password: string(hash),
+	}
+
 	// ユーザ作成処理、エラーがあれば0値とエラーを返す
 	if err := uu.ur.CreateUser(&newUser); err != nil {
 		return model.UserResponse{}, err
