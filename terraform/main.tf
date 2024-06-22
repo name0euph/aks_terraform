@@ -49,19 +49,19 @@ resource "azurerm_api_management" "apim" {
   sku_name            = "Consumption_0"
 
   identity {
-    type         = "SystemAssigned"
+    type = "SystemAssigned"
   }
 
   tags = var.tag
 }
 
 resource "azurerm_cognitive_account" "openai" {
-  name                = "aoai-cft-openai-arisaka"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = "West US"
+  name                  = "aoai-cft-openai-arisaka"
+  resource_group_name   = azurerm_resource_group.rg.name
+  location              = "West US"
   custom_subdomain_name = "aoai-cft-openai-arisaka"
-  kind                = "OpenAI"
-  sku_name            = "S0"
+  kind                  = "OpenAI"
+  sku_name              = "S0"
 
   tags = var.tag
 }
@@ -125,16 +125,16 @@ resource "azurerm_cognitive_deployment" "gpt-4" {
 
 # DB for Postgressql
 resource "azurerm_postgresql_flexible_server" "pg" {
-  name                = "pg-cft-openai-arisaka"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  name                          = "pg-cft-openai-arisaka"
+  resource_group_name           = azurerm_resource_group.rg.name
+  location                      = azurerm_resource_group.rg.location
   version                       = "12"
-  sku_name   = "B_Standard_B1ms"
+  sku_name                      = "B_Standard_B1ms"
   administrator_login           = "postgres"
   administrator_password        = "postgres"
   zone                          = "1"
-  storage_mb   = 32768
-  storage_tier = "P30"
+  storage_mb                    = 32768
+  storage_tier                  = "P4"
   public_network_access_enabled = true
-  tags = var.tag
+  tags                          = var.tag
 }
