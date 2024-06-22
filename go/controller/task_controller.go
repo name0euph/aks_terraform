@@ -30,7 +30,7 @@ func (tc *taskContoller) GetAllTasks(c echo.Context) error {
 	// デコードされたJWTトークンからuserを取得し、クレームからuserIdを取得
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	userId := claims["userId"]
+	userId := claims["user_id"]
 
 	tasksRes, err := tc.tu.GetAllTasks(uint(userId.(float64)))
 	if err != nil {
@@ -43,7 +43,7 @@ func (tc *taskContoller) GetTaskById(c echo.Context) error {
 	// デコードされたJWTトークンからuserを取得し、クレームからuserIdを取得
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	userId := claims["userId"]
+	userId := claims["user_id"]
 
 	// パスパラメータからtaskIdを取得
 	id := c.Param("taskId")
@@ -61,7 +61,7 @@ func (tc *taskContoller) CreateTask(c echo.Context) error {
 	// デコードされたJWTトークンからuserを取得し、クレームからuserIdを取得
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	userId := claims["userId"]
+	userId := claims["user_id"]
 
 	// リクエストボディをTask構造体にバインド
 	task := model.Task{}
@@ -83,7 +83,7 @@ func (tc *taskContoller) UpdateTask(c echo.Context) error {
 	// デコードされたJWTトークンからuserを取得し、クレームからuserIdを取得
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	userId := claims["userId"]
+	userId := claims["user_id"]
 
 	// パスパラメータからtaskIdを取得
 	id := c.Param("taskId")
@@ -107,7 +107,7 @@ func (tc *taskContoller) DeleteTask(c echo.Context) error {
 	// デコードされたJWTトークンからuserを取得し、クレームからuserIdを取得
 	user := c.Get("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	userId := claims["userId"]
+	userId := claims["user_id"]
 
 	// パスパラメータからtaskIdを取得
 	id := c.Param("taskId")
