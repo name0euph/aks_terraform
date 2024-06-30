@@ -4,7 +4,7 @@ export type Task = {
     created_at: Date
     updated_at: Date
 }
-export type Csrftoken = {
+export type CsrfToken = {
     csrf_token: string
 }
 export type Credential = {
