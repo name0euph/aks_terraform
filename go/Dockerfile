@@ -4,7 +4,7 @@ From golang:1.23rc1-alpine AS builder
 RUN apk add --no-cache git
 
 # 依存関係のインストール
-WORKDIR /go/src/work/
+WORKDIR .
 COPY go.mod go.sum /go/src/work/
 RUN go mod download
 
