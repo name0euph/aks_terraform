@@ -5,7 +5,10 @@
     "workspaceFolder": "/home/permit/aks_terraform",
     "features": {
         "ghcr.io/devcontainers/features/terraform:1": {},
-        "ghcr.io/devcontainers/features/azure-cli:1": {}
+        "ghcr.io/devcontainers/features/azure-cli:1": {},
+        "ghcr.io/devcontainers/features/node:1.5.0": {
+            "version": "20.15.0"
+          }
     },
     "customizations": {
         "vscode": {
