@@ -26,7 +26,8 @@
                 "GitHub.copilot-chat",
                 "GitHub.copilot",
                 "GitHub.vscode-github-actions",
-                "golang.Go"
+                "golang.Go",
+                "hediet.vscode-drawio"
             ]
         }
     }
