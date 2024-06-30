@@ -4,7 +4,9 @@
     "service": "app",
     "workspaceFolder": "/home/permit/aks_terraform",
     "features": {
-        "ghcr.io/devcontainers/features/terraform:1": {},
+        "ghcr.io/devcontainers/features/terraform:1": {
+            "version": "1.8.5"
+        },
         "ghcr.io/devcontainers/features/azure-cli:1": {},
         "ghcr.io/devcontainers/features/node:1.5.0": {
             "version": "20.15.0"
@@ -30,7 +32,9 @@
                 "GitHub.copilot",
                 "GitHub.vscode-github-actions",
                 "golang.Go",
-                "hediet.vscode-drawio"
+                "hediet.vscode-drawio",
+                "esbenp.prettier-vscode",
+                "dsznajder.es7-react-js-snippets"
             ]
         }
     }
