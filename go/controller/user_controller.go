@@ -69,7 +69,7 @@ func (uc *userController) LogIn(c echo.Context) error {
 }
 
 func (uc *userController) LogOut(c echo.Context) error {
-	// 値を空かつ有効期限をtime.Noew()に設定してクッキーを削除
+	// 値を空かつ有効期限をtime.Now()に設定してクッキーを削除
 	cookie := new(http.Cookie)
 	cookie.Name = "token"
 	cookie.Value = ""
