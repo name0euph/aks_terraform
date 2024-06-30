@@ -3,9 +3,6 @@ From golang:1.23rc1-alpine AS builder
 # gitインストール
 RUN apk add --no-cache git
 
-# 環境変数の設定
-ENV GO_ENV dev
-
 # 依存関係のインストール
 WORKDIR /go/src/work
 COPY go.mod go.sum /go/src/work/
