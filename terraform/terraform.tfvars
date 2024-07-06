@@ -1,5 +1,5 @@
 location = "japaneast"
-workload = "cft"
+workload = "cft-openai-arisaka"
 tags = {
   owner = "ryouta-arisaka"
   env   = "dev"
