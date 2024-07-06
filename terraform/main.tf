@@ -1,54 +1,28 @@
-terraform {
-  required_version = ">= 1.8.4"
-
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~>3.0"
-    }
-  }
-
-  backend "azurerm" {
-    resource_group_name  = "rg-cft-openai-arisaka"
-    storage_account_name = "stcftopenaiarisaka"
-    container_name       = "tfstate"
-    key                  = "terraform.tfstate"
-  }
-}
-
-provider "azurerm" {
-  features {}
-}
-
-variable "location" {
-  type    = string
-  default = "japaneast"
-}
-
-variable "tag" {
-  type = map(string)
-  default = {
-    owner     = "ryouta-arisaka"
-    terraform = "true"
-  }
-}
+################################################################
+# Resource Group
+################################################################
 
 resource "azurerm_resource_group" "rg" {
-  name     = "rg-cft-openai-arisaka"
+  name     = "rg-${var.workload}"
   location = var.location
 
-  tags = var.tag
+  tags = var.tags
 }
 
+
+################################################################
+# Azure OpenAI Service
+################################################################
+
 resource "azurerm_cognitive_account" "openai" {
-  name                  = "aoai-cft-openai-arisaka"
+  name                  = "aoai-${var.workload}"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = "West US"
-  custom_subdomain_name = "aoai-cft-openai-arisaka"
+  custom_subdomain_name = "aoai-${var.workload}"
   kind                  = "OpenAI"
   sku_name              = "S0"
 
-  tags = var.tag
+  tags = var.tags
 }
 
 resource "azurerm_cognitive_deployment" "gpt-35-turbo" {
@@ -108,9 +82,12 @@ resource "azurerm_cognitive_deployment" "gpt-4" {
   ]
 }
 
-# DB for Postgressql
+################################################################
+# PostgreSQL
+################################################################
+
 resource "azurerm_postgresql_flexible_server" "pg" {
-  name                          = "pg-cft-openai-arisaka"
+  name                          = "pg-${var.workload}"
   resource_group_name           = azurerm_resource_group.rg.name
   location                      = azurerm_resource_group.rg.location
   version                       = "12"
@@ -121,5 +98,18 @@ resource "azurerm_postgresql_flexible_server" "pg" {
   storage_mb                    = 32768
   storage_tier                  = "P4"
   public_network_access_enabled = true
-  tags                          = var.tag
+  tags                          = var.tags
+}
+
+################################################################
+# Azure Container Registry
+################################################################
+
+resource "azurerm_container_registry" "acr" {
+  name                = "acr${var.workload}"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  sku                 = "Basic"
+  admin_enabled       = false
+  tags                = var.tags
 }
