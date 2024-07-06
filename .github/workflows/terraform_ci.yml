@@ -4,9 +4,16 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/terraform_ci.yml'
 
 jobs:
   terraform_plan:
+    defaults:
+      run:
+        working-directory: terraform
+
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
@@ -35,12 +42,10 @@ jobs:
       - name: Initialize Terraform
         id: init
         run: terraform init
-        working-directory: ./terraform
 
       - name: Validate Terraform
         id: validate
         run: terraform validate
-        working-directory: ./terraform
         
       - name: Plan Terraform
         id: plan
