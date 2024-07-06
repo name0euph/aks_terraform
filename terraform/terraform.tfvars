@@ -1,5 +1,6 @@
-location="japaneast"
-tags={
+location = "japaneast"
+workload = "cft"
+tags = {
   owner = "ryouta-arisaka"
   env   = "dev"
 }
