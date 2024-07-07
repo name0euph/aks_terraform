@@ -20,10 +20,6 @@ jobs:
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-      pull-requests: write
       
     steps:
       - name: Checkout code
@@ -50,9 +46,23 @@ jobs:
       - name: Plan Terraform
         id: plan
         run: terraform plan -no-color
+    
+    outputs:
+      validate_status: ${{ steps.validate.outcome}}
+      plan_status: ${{ steps.plan.outcome }}
+      plan_output: ${{ steps.plan.outputs.stdout }}
 
+  github_comment:
+    runs-on: ubuntu-latest
+    needs: terraform_plan
+    if: ${{ always() }}
+    permissions:
+      contents: read
+      id-token: write 
+      pull-requests: write
+    steps:  
       - uses: actions/github-script@v7
-        if: github.event_name == 'pull_request'
+        if: '
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
