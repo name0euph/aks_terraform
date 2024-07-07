@@ -47,8 +47,8 @@ jobs:
         id: plan
         run: |
           output=$(terraform plan -no-color)
+          output="${output//$'\n'/\\n}" # 改行をエスケープ
           echo "::set-output name=stdout::${output}"
-        continue-on-error: true
     
     outputs:
       plan_status: ${{ steps.plan.outcome }}
