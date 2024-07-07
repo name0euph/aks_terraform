@@ -45,7 +45,10 @@ jobs:
         
       - name: Plan Terraform
         id: plan
-        run: terraform plan -no-color
+        run: |
+          output=$(terraform plan -no-color)
+          echo "::set-output name=stdout::$output"
+        continue-on-error: true
     
     outputs:
       plan_status: ${{ steps.plan.outcome }}
