@@ -47,7 +47,7 @@ jobs:
         id: plan
         run: |
           output=$(terraform plan -no-color)
-          echo "::set-output name=stdout::$output"
+          echo "::set-output name=stdout::${output}"
         continue-on-error: true
     
     outputs:
