@@ -48,7 +48,6 @@ jobs:
         run: terraform plan -no-color
     
     outputs:
-      validate_status: ${{ steps.validate.outcome}}
       plan_status: ${{ steps.plan.outcome }}
       plan_output: ${{ steps.plan.outputs.stdout }}
 
@@ -62,15 +61,14 @@ jobs:
       pull-requests: write
     steps:  
       - uses: actions/github-script@v7
-        if: '
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `Terraform Plan: \`${{ steps.plan.outcome }}\`
+            const output = `Terraform Plan: \`${{ needs.terraform_plan.outputs.plan_status }}\`
             <details><summary>Plan Output</summary>
 
             \`\`\`
-            ${{ steps.plan.outputs.stdout }}
+            ${{ needs.terraform_plan.outputs.plan_output }}
             \`\`\`
             </details>`           
             
