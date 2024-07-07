@@ -47,7 +47,6 @@ jobs:
         id: plan
         run: |
           output=$(terraform plan -no-color)
-          output="${output//'%'/'%25'}"
           echo "stdout=${output}" >> $GITHUB_OUTPUT
     
     outputs:
