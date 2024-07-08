@@ -60,7 +60,7 @@ jobs:
             const output = `Terraform Plan: \`${{ steps.plan.outcome }}\`
             <details><summary>Plan Output</summary>
 
-            \`\`\`
+            \`\`\`hcl
             ${{ steps.plan.outputs.stdout }}
             \`\`\`
             </details>`           
