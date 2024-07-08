@@ -41,6 +41,7 @@ jobs:
       - name: Apply Terraform
         id: apply
         run: terraform apply -no-color -auto-approve
+        continue-on-error: true
 
       - uses: actions/github-script@v7
         with:
@@ -49,7 +50,7 @@ jobs:
             const output = `Terraform Apply: \`${{ steps.apply.outcome }}\`
             <details><summary>Apply Output</summary>
 
-            \`\`\`
+            \`\`\`hcl
             ${{ steps.apply.outputs.stdout }}
             \`\`\`
             </details>`
