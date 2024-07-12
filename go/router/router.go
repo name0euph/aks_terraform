@@ -45,5 +45,11 @@ func NewRouter(uc controller.IUserController, tc controller.ITaskController) *ec
 	t.POST("", tc.CreateTask)
 	t.PUT("/:taskId", tc.UpdateTask)
 	t.DELETE("/:taskId", tc.DeleteTask)
+
+	// 正常性エンドポイント
+	e.GET("/health", func(c echo.Context) error {
+		return c.String(http.StatusOK, "OK")
+	})
+
 	return e
 }

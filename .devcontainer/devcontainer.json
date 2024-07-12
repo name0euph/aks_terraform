@@ -34,7 +34,8 @@
                 "golang.Go",
                 "hediet.vscode-drawio",
                 "esbenp.prettier-vscode",
-                "dsznajder.es7-react-js-snippets"
+                "dsznajder.es7-react-js-snippets",
+                "github.vscode-github-actions"
             ]
         }
     }
