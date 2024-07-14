@@ -1,4 +1,112 @@
+basePath: /
+host: localhost:8080
 info:
   contact: {}
-paths: {}
+  description: This is a simple todo API.
+  title: Todo API
+  version: "1.0"
+paths:
+  /csrf:
+    get:
+      consumes:
+      - application/json
+      description: CSRFトークンを取得する
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '成功時のレスポンス" example({"csrf_token": "token"})'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: CSRFトークン取得
+      tags:
+      - others
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: 既存のユーザーでログインする
+      parameters:
+      - description: ユーザー名
+        in: body
+        name: username
+        required: true
+        schema:
+          type: string
+      - description: パスワード
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: ログイン
+      tags:
+      - users
+  /logout:
+    post:
+      consumes:
+      - application/json
+      description: ログアウトする
+      parameters:
+      - description: ユーザー名
+        in: body
+        name: username
+        required: true
+        schema:
+          type: string
+      - description: パスワード
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: ログアウト
+      tags:
+      - users
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: 新しいユーザーを作成する
+      parameters:
+      - description: ユーザー名
+        in: body
+        name: username
+        required: true
+        schema:
+          type: string
+      - description: パスワード
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: サインアップ
+      tags:
+      - users
 swagger: "2.0"
