@@ -9,6 +9,11 @@ import (
 	"go-rest-api/validator"
 )
 
+// @title Todo API
+// @version 1.0
+// @description This is a simple todo API.
+// @host localhost:8080
+// @BasePath /
 func main() {
 	db := db.NewDB()
 	// 依存性の注入

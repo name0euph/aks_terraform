@@ -5,9 +5,12 @@ import (
 	"net/http"
 	"os"
 
+	_ "go-rest-api/docs"
+
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 func NewRouter(uc controller.IUserController, tc controller.ITaskController) *echo.Echo {
@@ -35,6 +38,7 @@ func NewRouter(uc controller.IUserController, tc controller.ITaskController) *ec
 	e.POST("/login", uc.LogIn)
 	e.POST("/logout", uc.LogOut)
 	e.GET("/csrf", uc.CsrfToken)
+
 	t := e.Group("/tasks")
 	t.Use(echojwt.WithConfig(echojwt.Config{
 		SigningKey:  []byte(os.Getenv("SECRET")),
@@ -50,6 +54,9 @@ func NewRouter(uc controller.IUserController, tc controller.ITaskController) *ec
 	e.GET("/health", func(c echo.Context) error {
 		return c.String(http.StatusOK, "OK")
 	})
+
+	// OpenAPIドキュメントエンドポイント
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	return e
 }
