@@ -9,8 +9,8 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = "rg-cft-openai-arisaka"
-    storage_account_name = "stcftopenaiarisaka"
+    resource_group_name  = "rg-techthemach-jpe-00"
+    storage_account_name = "sttechthemachjpe01"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
   }
@@ -18,4 +18,5 @@ terraform {
 
 provider "azurerm" {
   features {}
+  subscription_id = "7f174dd3-9580-404a-a527-1ae6144513ff"
 }
