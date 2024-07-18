@@ -38,7 +38,7 @@ jobs:
         with:
           inlineScript: |
             az version
-            az postgres flexible-server firewall-rule create --resource-group rg-techthemach-jpe-01 --name pg-techthemach-jpe-01 --rule-name allowip --start-ip-address $GITHUB_ACTIONS_IP --end-ip-address $GITHUB_ACTIONS_IP
+            az postgres flexible-server firewall-rule create --resource-group rg-techthemach-jpe-01 --name pg-techthemach-jpe-01 --rule-name allowip --start-ip-address ${{ env.GITHUB_ACTIONS_IP }} 
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
