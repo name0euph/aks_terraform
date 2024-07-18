@@ -20,6 +20,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure CLI
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            GITHUB_ACTIONS_IP=$(curl ifconfig.io)
+            az version
+            az postgres flexible-server firewall-rule create --resource-group rg-techthemach-jpe-01 --name pg-techthemach-jpe-01 --rule-name allowip --start-ip-address $GITHUB_ACTIONS_IP
+
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
