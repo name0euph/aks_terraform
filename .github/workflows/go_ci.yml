@@ -20,6 +20,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install curl
+        run: sudo apt-get install -y curl && GITHUB_ACTIONS_IP=$(curl ifconfig.io)
+
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -29,7 +32,6 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            GITHUB_ACTIONS_IP=$(curl ifconfig.io)
             az version
             az postgres flexible-server firewall-rule create --resource-group rg-techthemach-jpe-01 --name pg-techthemach-jpe-01 --rule-name allowip --start-ip-address $GITHUB_ACTIONS_IP
 
