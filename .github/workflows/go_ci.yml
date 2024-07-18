@@ -21,7 +21,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install curl
-        run: sudo apt-get install -y curl && GITHUB_ACTIONS_IP=$(curl ifconfig.io)
+        run: sudo apt-get install -y curl
+
+      - name: Get GitHub Actions IP
+        run: |
+          GITHUB_ACTIONS_IP=$(curl ifconfig.io)
+          echo "GITHUB_ACTIONS_IP=$GITHUB_ACTIONS_IP"
 
       - name: Azure Login
         uses: azure/login@v1
@@ -33,7 +38,7 @@ jobs:
         with:
           inlineScript: |
             az version
-            az postgres flexible-server firewall-rule create --resource-group rg-techthemach-jpe-01 --name pg-techthemach-jpe-01 --rule-name allowip --start-ip-address "$GITHUB_ACTIONS_IP"
+            az postgres flexible-server firewall-rule create --resource-group rg-techthemach-jpe-01 --name pg-techthemach-jpe-01 --rule-name allowip --start-ip-address $GITHUB_ACTIONS_IP
 
       - name: Set up Go
         uses: actions/setup-go@v2
