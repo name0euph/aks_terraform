@@ -25,7 +25,8 @@ jobs:
 
       - name: Get GitHub Actions IP
         run: |
-          echo "$(curl ifconfig.io)" >> $GITHUB_ACTIONS_IP
+          GITHUB_ACTIONS_IP=$(curl ifconfig.io)
+          echo "$GITHUB_ACTIONS_IP" >> $GITHUB_ENV
 
       - name: Azure Login
         uses: azure/login@v1
