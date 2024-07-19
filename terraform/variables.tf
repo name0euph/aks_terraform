@@ -5,8 +5,8 @@ variable "workload" {
 
 variable "location" {
   description = "リソースが作成されるリージョン。既定は東日本"
-  type        = string
-  default     = "japaneast"
+  type        = list(string)
+  default     = ["japaneast", "jpe"]
 }
 
 variable "tags" {
