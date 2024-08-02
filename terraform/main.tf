@@ -141,3 +141,23 @@ resource "azurerm_storage_container" "tfstate" {
   storage_account_name  = azurerm_storage_account.tfstate.name
   container_access_type = "private"
 }
+
+################################################################
+# Log Analytics Workspace
+################################################################
+
+resource "azurerm_log_analytics_workspace" "dev_01" {
+  name                = "law-${var.workload}-${var.location[1]}-01"
+  location            = azurerm_resource_group.dev_01.location
+  resource_group_name = azurerm_resource_group.dev_01.name
+  tags                = var.tags
+}
+
+resource "azurerm_monitor_diagnostic_setting" "pg_01" {
+  name = "ds"
+  target_resource_id = azurerm_postgresql_flexible_server.dev_01.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.dev_01.id
+  enabled_log {
+    category = "PostgreSQLLogs"
+  }
+}

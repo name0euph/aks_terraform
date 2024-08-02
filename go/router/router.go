@@ -28,8 +28,8 @@ func NewRouter(uc controller.IUserController, tc controller.ITaskController) *ec
 		CookiePath:     "/",
 		CookieDomain:   os.Getenv("API_DOMAIN"),
 		CookieHTTPOnly: true,
-		CookieSameSite: http.SameSiteNoneMode,
-		//CookieSameSite: http.SameSiteDefaultMode,
+		//CookieSameSite: http.SameSiteNoneMode,
+		CookieSameSite: http.SameSiteDefaultMode,
 		//CookieMaxAge: 60,
 	}))
 
@@ -51,9 +51,7 @@ func NewRouter(uc controller.IUserController, tc controller.ITaskController) *ec
 	t.DELETE("/:taskId", tc.DeleteTask)
 
 	// 正常性エンドポイント
-	e.GET("/health", func(c echo.Context) error {
-		return c.String(http.StatusOK, "OK")
-	})
+	e.GET("/health", uc.HealthCheck)
 
 	// OpenAPIドキュメントエンドポイント
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
