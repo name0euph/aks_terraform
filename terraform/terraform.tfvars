@@ -1,6 +1,6 @@
-location = "japaneast"
-workload = "cft-openai-arisaka"
+workload = "techthemach"
 tags = {
-  owner = "ryouta-arisaka"
-  env   = "dev"
+  Owner     = "ryouta-arisaka"
+  Env       = "dev"
+  Terraform = "true"
 }

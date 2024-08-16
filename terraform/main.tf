@@ -2,18 +2,25 @@
 # Resource Group
 ################################################################
 
-resource "azurerm_resource_group" "rg" {
-  name     = "rg-${var.workload}"
-  location = var.location
-
-  tags = var.tags
+resource "azurerm_resource_group" "dev_01" {
+  # rg-techthemach-jpe-01
+  name     = "rg-${var.workload}-${var.location[1]}-01"
+  location = var.location[0]
+  tags     = var.tags
 }
 
+resource "azurerm_resource_group" "tfstate" {
+  # rg-techthemach-jpe-00
+  name     = "rg-${var.workload}-${var.location[1]}-00"
+  location = var.location[0]
+  tags     = var.tags
+}
 
 ################################################################
 # Azure OpenAI Service
 ################################################################
 
+/*
 resource "azurerm_cognitive_account" "openai" {
   name                  = "aoai-${var.workload}"
   resource_group_name   = azurerm_resource_group.rg.name
@@ -81,15 +88,17 @@ resource "azurerm_cognitive_deployment" "gpt-4" {
     azurerm_cognitive_account.openai,
   ]
 }
+*/
 
 ################################################################
 # PostgreSQL
 ################################################################
 
-resource "azurerm_postgresql_flexible_server" "pg" {
-  name                          = "pg-${var.workload}"
-  resource_group_name           = azurerm_resource_group.rg.name
-  location                      = azurerm_resource_group.rg.location
+resource "azurerm_postgresql_flexible_server" "dev_01" {
+  #
+  name                          = "pg-${var.workload}-${var.location[1]}-01"
+  resource_group_name           = azurerm_resource_group.dev_01.name
+  location                      = azurerm_resource_group.dev_01.location
   version                       = "12"
   sku_name                      = "B_Standard_B1ms"
   administrator_login           = "postgres"
@@ -105,11 +114,50 @@ resource "azurerm_postgresql_flexible_server" "pg" {
 # Azure Container Registry
 ################################################################
 
-resource "azurerm_container_registry" "acr" {
+resource "azurerm_container_registry" "dev_01" {
   name                = "acrcftopenaiarisaka"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.dev_01.name
+  location            = azurerm_resource_group.dev_01.location
   sku                 = "Basic"
   admin_enabled       = false
   tags                = var.tags
+}
+
+################################################################
+# Storage Account
+################################################################
+
+resource "azurerm_storage_account" "tfstate" {
+  name                     = "st${var.workload}${var.location[1]}01"
+  resource_group_name      = azurerm_resource_group.tfstate.name
+  location                 = azurerm_resource_group.tfstate.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  tags                     = var.tags
+}
+
+resource "azurerm_storage_container" "tfstate" {
+  name                  = "tfstate"
+  storage_account_name  = azurerm_storage_account.tfstate.name
+  container_access_type = "private"
+}
+
+################################################################
+# Log Analytics Workspace
+################################################################
+
+resource "azurerm_log_analytics_workspace" "dev_01" {
+  name                = "law-${var.workload}-${var.location[1]}-01"
+  location            = azurerm_resource_group.dev_01.location
+  resource_group_name = azurerm_resource_group.dev_01.name
+  tags                = var.tags
+}
+
+resource "azurerm_monitor_diagnostic_setting" "pg_01" {
+  name = "ds"
+  target_resource_id = azurerm_postgresql_flexible_server.dev_01.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.dev_01.id
+  enabled_log {
+    category = "PostgreSQLLogs"
+  }
 }

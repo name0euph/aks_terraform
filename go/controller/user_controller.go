@@ -15,6 +15,7 @@ type IUserController interface {
 	LogIn(c echo.Context) error
 	LogOut(c echo.Context) error
 	CsrfToken(c echo.Context) error
+	HealthCheck(c echo.Context) error
 }
 
 type userController struct {
@@ -27,15 +28,17 @@ func NewUserController(uu usecase.IUserUsecase) IUserController {
 }
 
 // SignUp godoc
-// @Summary サインアップ
-// @Description 新しいユーザーを作成する
-// @Tags users
-// @Accept  json
-// @Produce  json
-// @Param   username  body  string true  "ユーザー名"
-// @Param   password  body  string true  "パスワード"
-// @Success 200 {object} map[string]interface{}
-// @Router /signup [post]
+// @Summary      サインアップ
+// @Description  新しいユーザーを作成する
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        username  body      string  true  "ユーザー名"
+// @Param        password  body      string  true  "パスワード"
+// @Success      200       {object}  map[string]interface{}
+// @Failure      400       {object}  map[string]interface{}
+// @Failure      500       {object}  map[string]interface{}
+// @Router       /signup [post]
 func (uc *userController) SignUp(c echo.Context) error {
 	// リクエストボディをUser構造体にバインド
 	user := model.User{}
@@ -52,15 +55,17 @@ func (uc *userController) SignUp(c echo.Context) error {
 }
 
 // LogIn godoc
-// @Summary ログイン
-// @Description 既存のユーザーでログインする
-// @Tags users
-// @Accept  json
-// @Produce  json
-// @Param   username  body  string true  "ユーザー名"
-// @Param   password  body  string true  "パスワード"
-// @Success 200 {object} map[string]interface{}
-// @Router /login [post]
+// @Summary      ログイン
+// @Description  既存のユーザーでログインする
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        username  body      string  true  "ユーザー名"
+// @Param        password  body      string  true  "パスワード"
+// @Success      200       {object}  map[string]interface{}
+// @Failure      400       {object}  map[string]interface{}
+// @Failure      500       {object}  map[string]interface{}
+// @Router       /login [post]
 func (uc *userController) LogIn(c echo.Context) error {
 	// リクエストボディをUser構造体にバインド
 	user := model.User{}
@@ -90,15 +95,15 @@ func (uc *userController) LogIn(c echo.Context) error {
 }
 
 // LogOut godoc
-// @Summary ログアウト
-// @Description ログアウトする
-// @Tags users
-// @Accept  json
-// @Produce  json
-// @Param   username  body  string true  "ユーザー名"
-// @Param   password  body  string true  "パスワード"
-// @Success 200 {object} map[string]interface{}
-// @Router /logout [post]
+// @Summary      ログアウト
+// @Description  ユーザがログアウトする
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        username  body      string  true  "ユーザー名"
+// @Param        password  body      string  true  "パスワード"
+// @Success      200       {object}  map[string]interface{}
+// @Router       /logout [post]
 func (uc *userController) LogOut(c echo.Context) error {
 	// 値を空かつ有効期限をtime.Now()に設定してクッキーを削除
 	cookie := new(http.Cookie)
@@ -115,13 +120,13 @@ func (uc *userController) LogOut(c echo.Context) error {
 }
 
 // CSRF godoc
-// @Summary CSRFトークン取得
-// @Description CSRFトークンを取得する
-// @Tags others
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} map[string]interface{} "成功時のレスポンス" example({"csrf_token": "token"})
-// @Router /csrf [get]
+// @Summary      CSRF
+// @Description  CSRFトークンを取得する
+// @Tags         others
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  map[string]interface{}
+// @Router       /csrf [get]
 func (uc *userController) CsrfToken(c echo.Context) error {
 	// CSRFトークンを取得
 	token := c.Get("csrf").(string)
@@ -130,4 +135,16 @@ func (uc *userController) CsrfToken(c echo.Context) error {
 	return c.JSON(http.StatusOK, echo.Map{
 		"csrf_token": token,
 	})
+}
+
+// HealthCheck godoc
+// @Summary      正常性エンドポイント
+// @Description  正常性を確認するためのエンドポイント
+// @Tags         others
+// @Accept       json
+// @Produce      json
+// @Success      200  {string}  string  "OK"
+// @Router       /health [get]
+func (uc *userController) HealthCheck(c echo.Context) error {
+	return c.String(http.StatusOK, "OK")
 }

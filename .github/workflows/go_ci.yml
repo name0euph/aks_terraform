@@ -1,0 +1,56 @@
+name: Go CI
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'go/**'
+      - '.github/workflows/go_ci.yml'
+
+jobs:
+  go_test:
+    defaults:
+      run:
+        working-directory: go
+        
+    runs-on: ubuntu-latest
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install curl
+        run: sudo apt-get install -y curl
+
+      - name: Get GitHub Actions IP
+        run: |
+          GITHUB_ACTIONS_IP=$(curl ifconfig.io)
+          echo "GITHUB_ACTIONS_IP=$GITHUB_ACTIONS_IP" >> $GITHUB_ENV
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Add Allow IP to Azure PostgreSQL
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az version
+            az postgres flexible-server firewall-rule create --resource-group rg-techthemach-jpe-01 --name pg-techthemach-jpe-01 --rule-name allowip --start-ip-address ${{ env.GITHUB_ACTIONS_IP }} 
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.22
+      
+      - name: Run tests
+        run: GO_ENV=dev go test -v ./...
+
+      - name: Delete Allow IP from Azure PostgreSQL
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az postgres flexible-server firewall-rule create --resource-group rg-techthemach-jpe-01 --name pg-techthemach-jpe-01 --rule-name allowip --start-ip-address ${{ env.GITHUB_ACTIONS_IP }} 
+ 

@@ -1,7 +1,9 @@
 basePath: /
 host: localhost:8080
 info:
-  contact: {}
+  contact:
+    email: name0euph@gmail.com
+    name: name0euph
   description: This is a simple todo API.
   title: Todo API
   version: "1.0"
@@ -15,11 +17,26 @@ paths:
       - application/json
       responses:
         "200":
-          description: '成功時のレスポンス" example({"csrf_token": "token"})'
+          description: OK
           schema:
             additionalProperties: true
             type: object
-      summary: CSRFトークン取得
+      summary: CSRF
+      tags:
+      - others
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: 正常性を確認するためのエンドポイント
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 正常性エンドポイント
       tags:
       - others
   /login:
@@ -48,6 +65,16 @@ paths:
           schema:
             additionalProperties: true
             type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
       summary: ログイン
       tags:
       - users
@@ -55,7 +82,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: ログアウトする
+      description: ユーザがログアウトする
       parameters:
       - description: ユーザー名
         in: body
@@ -103,6 +130,16 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
           schema:
             additionalProperties: true
             type: object

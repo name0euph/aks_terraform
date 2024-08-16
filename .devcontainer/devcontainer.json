@@ -1,20 +1,24 @@
 {
-    "name": "Terraform & Go",
-    "dockerComposeFile": "./docker-compose.yml",
-    "service": "app",
-    "workspaceFolder": "/home/permit/aks_terraform",
+	"name": "Docker in Docker",
+	"dockerFile": "Dockerfile",
+	"runArgs": ["--init", "--privileged"],
+	"mounts": ["source=dind-var-lib-docker,target=/var/lib/docker,type=volume"],
+	"overrideCommand": false,
     "features": {
         "ghcr.io/devcontainers/features/terraform:1": {
             "version": "1.8.5"
         },
         "ghcr.io/devcontainers/features/azure-cli:1": {},
-        "ghcr.io/devcontainers/features/node:1.5.0": {
-            "version": "20.15.0"
-          }
+		"ghcr.io/devcontainers/features/go:1": {
+			"version": "1.22.5"
+		}
     },
-    "customizations": {
-        "vscode": {
-            "settings":{
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Add settings to the container.
+			"settings":{
                 "terminal.integrated.shell.linux": "/bin/bash",
                 "go.toolsManagement.checkForUpdates": "off",
                 "go.gopath": "/go",
@@ -26,17 +30,28 @@
                   "editor.formatOnSave": true
                 }
             },
-            "extensions": [
-                "4ops.terraform",
-                "GitHub.copilot-chat",
-                "GitHub.copilot",
-                "GitHub.vscode-github-actions",
-                "golang.Go",
-                "hediet.vscode-drawio",
-                "esbenp.prettier-vscode",
-                "dsznajder.es7-react-js-snippets",
-                "github.vscode-github-actions"
-            ]
-        }
-    }
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-azuretools.vscode-docker",
+				"4ops.terraform",
+				"GitHub.copilot-chat",
+				"GitHub.copilot",
+				"GitHub.vscode-github-actions",
+				"golang.Go",
+				"hediet.vscode-drawio",
+				"esbenp.prettier-vscode",
+				"github.vscode-github-actions",
+				"ckolkman.vscode-postgres"
+			]
+		}
+	},
+	
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "docker --version",
+
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode"
 }
