@@ -2,7 +2,6 @@ package router
 
 import (
 	"go-rest-api/controller"
-	"net/http"
 	"os"
 
 	_ "go-rest-api/docs"
@@ -24,20 +23,22 @@ func NewRouter(uc controller.IUserController, tc controller.ITaskController) *ec
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"}, // 許可するHTTPメソッド
 		AllowCredentials: true,                                     // cookieを許可
 	}))
-	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
-		CookiePath:     "/",
-		CookieDomain:   os.Getenv("API_DOMAIN"),
-		CookieHTTPOnly: true,
-		//CookieSameSite: http.SameSiteNoneMode,
-		CookieSameSite: http.SameSiteDefaultMode,
-		//CookieMaxAge: 60,
-	}))
+	/*
+		e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+			CookiePath:     "/",
+			CookieDomain:   os.Getenv("API_DOMAIN"),
+			CookieHTTPOnly: true,
+			//CookieSameSite: http.SameSiteNoneMode,
+			CookieSameSite: http.SameSiteDefaultMode,
+			//CookieMaxAge: 60,
+		}))
+	*/
 
 	// ルーティングの設定
 	e.POST("/signup", uc.SignUp)
 	e.POST("/login", uc.LogIn)
 	e.POST("/logout", uc.LogOut)
-	e.GET("/csrf", uc.CsrfToken)
+	//e.GET("/csrf", uc.CsrfToken)
 
 	t := e.Group("/tasks")
 	t.Use(echojwt.WithConfig(echojwt.Config{

@@ -19,30 +19,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/csrf": {
-            "get": {
-                "description": "CSRFトークンを取得する",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "others"
-                ],
-                "summary": "CSRF",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
         "/health": {
             "get": {
                 "description": "正常性を確認するためのエンドポイント",

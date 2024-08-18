@@ -14,7 +14,7 @@ type IUserController interface {
 	SignUp(c echo.Context) error
 	LogIn(c echo.Context) error
 	LogOut(c echo.Context) error
-	CsrfToken(c echo.Context) error
+	//CsrfToken(c echo.Context) error
 	HealthCheck(c echo.Context) error
 }
 
@@ -35,7 +35,7 @@ func NewUserController(uu usecase.IUserUsecase) IUserController {
 // @Produce      json
 // @Param        username  body      string  true  "ユーザー名"
 // @Param        password  body      string  true  "パスワード"
-// @Success      200       {object}  map[string]interface{}
+// @Success      201       {object}  map[string]interface{}
 // @Failure      400       {object}  map[string]interface{}
 // @Failure      500       {object}  map[string]interface{}
 // @Router       /signup [post]
@@ -119,6 +119,7 @@ func (uc *userController) LogOut(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
+/*
 // CSRF godoc
 // @Summary      CSRF
 // @Description  CSRFトークンを取得する
@@ -136,6 +137,7 @@ func (uc *userController) CsrfToken(c echo.Context) error {
 		"csrf_token": token,
 	})
 }
+*/
 
 // HealthCheck godoc
 // @Summary      正常性エンドポイント

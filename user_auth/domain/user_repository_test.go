@@ -54,8 +54,7 @@ func TestCreateUser(t *testing.T) {
 
 	mock.ExpectCommit()
 
-	err = r.CreateUser(newUser)
-	if err != nil {
+	if err := r.CreateUser(newUser); err != nil {
 		t.Fatal(err)
 	}
 
@@ -87,8 +86,7 @@ func TestGetUserByEmail(t *testing.T) {
 		WillReturnRows(rows)
 
 	var user domain.User
-	err = r.GetUserByEmail(&user, "test1@test.com")
-	if err != nil {
+	if err := r.GetUserByEmail(&user, "test1@test.com"); err != nil {
 		t.Fatal(err)
 	}
 

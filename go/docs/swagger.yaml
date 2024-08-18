@@ -8,22 +8,6 @@ info:
   title: Todo API
   version: "1.0"
 paths:
-  /csrf:
-    get:
-      consumes:
-      - application/json
-      description: CSRFトークンを取得する
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            additionalProperties: true
-            type: object
-      summary: CSRF
-      tags:
-      - others
   /health:
     get:
       consumes:
